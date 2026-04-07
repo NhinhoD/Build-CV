@@ -1,0 +1,5 @@
+{
+  "name": "Smart CV Builder",
+  "description": "A professional CV generator that customizes your resume based on your experience level and exports to PDF.",
+  "requestFramePermissions": []
+}
