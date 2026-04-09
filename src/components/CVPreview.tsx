@@ -10,16 +10,21 @@ export const CVPreview = forwardRef<HTMLDivElement, CVPreviewProps>(({ data }, r
   const { personalInfo, summary, experience, education, skills, projects, certifications, language } = data;
   const t = translations[language];
 
+  const formatUrl = (url: string) => {
+    if (!url) return '';
+    return url.startsWith('http') ? url : `https://${url}`;
+  };
+
   const contactItems = [
     personalInfo.email && <a key="email" href={`mailto:${personalInfo.email}`} className="text-blue-600 hover:underline">{personalInfo.email}</a>,
     personalInfo.phone && <span key="phone">{personalInfo.phone}</span>,
-    personalInfo.linkedin && <a key="linkedin" href={personalInfo.linkedin.startsWith('http') ? personalInfo.linkedin : `https://${personalInfo.linkedin}`} className="text-blue-600 hover:underline">{personalInfo.linkedin.replace(/^https?:\/\//, '')}</a>,
-    personalInfo.github && <a key="github" href={personalInfo.github.startsWith('http') ? personalInfo.github : `https://${personalInfo.github}`} className="text-blue-600 hover:underline">{personalInfo.github.replace(/^https?:\/\//, '')}</a>,
-    personalInfo.website && <a key="website" href={personalInfo.website.startsWith('http') ? personalInfo.website : `https://${personalInfo.website}`} className="text-blue-600 hover:underline">{personalInfo.website.replace(/^https?:\/\//, '')}</a>,
+    personalInfo.linkedin && <a key="linkedin" href={formatUrl(personalInfo.linkedin)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{personalInfo.linkedin.replace(/^https?:\/\//, '')}</a>,
+    personalInfo.github && <a key="github" href={formatUrl(personalInfo.github)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{personalInfo.github.replace(/^https?:\/\//, '')}</a>,
+    personalInfo.website && <a key="website" href={formatUrl(personalInfo.website)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{personalInfo.website.replace(/^https?:\/\//, '')}</a>,
   ].filter(Boolean);
 
   return (
-    <div className="bg-white shadow-lg mx-auto" style={{ width: '210mm', minHeight: '297mm' }}>
+    <div className="bg-white shadow-lg mx-auto print:shadow-none" style={{ width: '210mm', minHeight: '297mm' }}>
       <div ref={ref} className="p-12 bg-white text-black font-sans" style={{ width: '210mm', minHeight: '297mm' }}>
         
         {/* Header */}
@@ -112,12 +117,12 @@ export const CVPreview = forwardRef<HTMLDivElement, CVPreviewProps>(({ data }, r
                 <div className="text-[13px] mb-1">
                   {proj.demoLink && (
                     <div className="mb-0.5">
-                      {t.demo}: <a href={proj.demoLink} className="text-blue-600 hover:underline">{proj.demoLink}</a>
+                      {t.demo}: <a href={formatUrl(proj.demoLink)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{proj.demoLink}</a>
                     </div>
                   )}
                   {proj.githubLink && (
                     <div>
-                      {t.github}: <a href={proj.githubLink} className="text-blue-600 hover:underline">{proj.githubLink}</a>
+                      {t.github}: <a href={formatUrl(proj.githubLink)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{proj.githubLink}</a>
                     </div>
                   )}
                 </div>
@@ -199,7 +204,7 @@ export const CVPreview = forwardRef<HTMLDivElement, CVPreviewProps>(({ data }, r
                 {certifications.map((cert) => (
                   <li key={cert.id} className="pl-2 -indent-2">
                     {cert.link ? (
-                      <a href={cert.link} className="text-blue-600 hover:underline">{cert.name}</a>
+                      <a href={formatUrl(cert.link)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{cert.name}</a>
                     ) : (
                       <span>{cert.name}</span>
                     )}
